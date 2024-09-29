@@ -1,8 +1,8 @@
-const { appid, clientver } = require('../util');
+const { appid, clientver } = require('../util')
 
 module.exports = (params, useAxios) => {
-  const userid = params?.userid || params?.cookie?.userid || 0;
-  const token = params?.token || params.cookie?.token || '';
+  const userid = params?.userid || params?.cookie?.userid || 0
+  const token = params?.token || params.cookie?.token || ''
 
   const dataMap = {
     appid,
@@ -12,14 +12,14 @@ module.exports = (params, useAxios) => {
     tag_id: params.tag_id,
     page: params.page || 1,
     page_size: params.pagesize || 30,
-    exposed_data: [],
-  };
+    exposed_data: []
+  }
 
   return useAxios({
     url: '/scene/v1/distribution/collection_list',
     method: 'POST',
     encryptType: 'android',
     data: dataMap,
-    cookie: params?.cookie || {},
-  });
-};
+    cookie: params?.cookie || {}
+  })
+}

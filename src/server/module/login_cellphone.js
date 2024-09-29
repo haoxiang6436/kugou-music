@@ -1,11 +1,15 @@
 // 手机登录
-const { cryptoAesDecrypt, cryptoAesEncrypt, cryptoRSAEncrypt, signParamsKey, isLite } = require('../util');
-
-
+const {
+  cryptoAesDecrypt,
+  cryptoAesEncrypt,
+  cryptoRSAEncrypt,
+  signParamsKey,
+  isLite
+} = require('../util')
 
 module.exports = (params, useAxios) => {
-  const dateTime = Date.now();
-  const encrypt = cryptoAesEncrypt({ mobile: params?.mobile || '', code: params?.code || '' });
+  const dateTime = Date.now()
+  const encrypt = cryptoAesEncrypt({ mobile: params?.mobile || '', code: params?.code || '' })
   let dataMap = {
     plat: 1,
     support_multi: 1,
@@ -13,17 +17,23 @@ module.exports = (params, useAxios) => {
     t2: 0,
     clienttime_ms: dateTime,
     mobile: params.mobile,
-    key: signParamsKey(dateTime),
-  };
+    key: signParamsKey(dateTime)
+  }
 
   if (isLite) {
-    dataMap['p2'] = cryptoRSAEncrypt({ 'clienttime_ms': dateTime, code: params.code, mobile: params.mobile }).toUpperCase();
+    dataMap['p2'] = cryptoRSAEncrypt({
+      clienttime_ms: dateTime,
+      code: params.code,
+      mobile: params.mobile
+    }).toUpperCase()
   } else {
-    const mobile = params?.mobile && `${params.mobile.toString().substring(0, 2)}*****${params.mobile.toString().substring(10, 11)}`;
-    dataMap['mobile'] = mobile;
-    dataMap['t3'] = 'MCwwLDAsMCwwLDAsMCwwLDA=';
-    dataMap['params'] = encrypt.str;
-    dataMap['pk'] = cryptoRSAEncrypt({ 'clienttime_ms': dateTime, key: encrypt.key }).toUpperCase()
+    const mobile =
+      params?.mobile &&
+      `${params.mobile.toString().substring(0, 2)}*****${params.mobile.toString().substring(10, 11)}`
+    dataMap['mobile'] = mobile
+    dataMap['t3'] = 'MCwwLDAsMCwwLDAsMCwwLDA='
+    dataMap['params'] = encrypt.str
+    dataMap['pk'] = cryptoRSAEncrypt({ clienttime_ms: dateTime, key: encrypt.key }).toUpperCase()
   }
 
   return new Promise((resolve, reject) => {
@@ -33,27 +43,27 @@ module.exports = (params, useAxios) => {
       data: dataMap,
       encryptType: 'android',
       cookie: params?.cookie || {},
-      headers: { 'x-router': 'login.user.kugou.com' },
+      headers: { 'x-router': 'login.user.kugou.com' }
     })
       .then((res) => {
-        const { body } = res;
+        const { body } = res
         if (body?.status && body?.status === 1) {
           if (body?.data?.secu_params) {
-            const getToken = cryptoAesDecrypt(body.data.secu_params, encrypt.key);
+            const getToken = cryptoAesDecrypt(body.data.secu_params, encrypt.key)
             if (typeof getToken === 'object') {
-              res.body.data = { ...body.data, ...getToken };
-              Object.keys(getToken).forEach((key) => res.cookie.push(`${key}=${getToken[key]}`));
+              res.body.data = { ...body.data, ...getToken }
+              Object.keys(getToken).forEach((key) => res.cookie.push(`${key}=${getToken[key]}`))
             } else {
-              res.body.data['token'] = getToken;
+              res.body.data['token'] = getToken
             }
           }
-          res.cookie.push(`token=${res.body.data['token']}`);
-          res.cookie.push(`userid=${res.body.data?.userid || 0}`);
-          res.cookie.push(`vip_type=${res.body.data?.vip_type || 0}`);
-          res.cookie.push(`vip_token=${res.body.data?.vip_token || ''}`);
+          res.cookie.push(`token=${res.body.data['token']}`)
+          res.cookie.push(`userid=${res.body.data?.userid || 0}`)
+          res.cookie.push(`vip_type=${res.body.data?.vip_type || 0}`)
+          res.cookie.push(`vip_token=${res.body.data?.vip_token || ''}`)
         }
-        resolve(res);
+        resolve(res)
       })
-      .catch((e) => reject(e));
-  });
-};
+      .catch((e) => reject(e))
+  })
+}

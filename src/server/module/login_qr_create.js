@@ -1,4 +1,4 @@
-const qrcode = require('qrcode');
+const qrcode = require('qrcode')
 // 酷狗二维码生成
 
 module.exports = (params, useAxios) => {
@@ -11,9 +11,9 @@ module.exports = (params, useAxios) => {
         code: 200,
         data: {
           url: url,
-          base64: params?.qrimg ? await qrcode.toDataURL(url) : '',
-        },
-      },
+          base64: params?.qrimg ? await qrcode.toDataURL(url) : ''
+        }
+      }
     })
   })
 }

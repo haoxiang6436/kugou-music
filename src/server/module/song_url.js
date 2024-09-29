@@ -6,9 +6,11 @@
 // ancient 尤克里里
 // dj dj
 module.exports = (params, useAxios) => {
-  const quality = ['piano', 'acappella', 'subwoofer', 'ancient', 'dj', 'surnay'].includes(params.quality)
+  const quality = ['piano', 'acappella', 'subwoofer', 'ancient', 'dj', 'surnay'].includes(
+    params.quality
+  )
     ? `magic_${params?.quality}`
-    : params.quality;
+    : params.quality
 
   const dataMap = {
     album_audio_id: Number(params.album_audio_id ?? 0),
@@ -32,8 +34,8 @@ module.exports = (params, useAxios) => {
     ppage_id: '463467626,350369493,788954147',
     cdnBackup: 1,
     kcard: 0,
-    module: 'collection',
-  };
+    module: 'collection'
+  }
 
   return useAxios({
     url: '/v5/url',
@@ -43,6 +45,6 @@ module.exports = (params, useAxios) => {
     headers: { 'x-router': 'tracker.kugou.com' },
     encryptKey: true,
     notSign: true,
-    cookie: params?.cookie || {},
-  });
-};
+    cookie: params?.cookie || {}
+  })
+}

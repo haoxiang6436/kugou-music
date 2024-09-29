@@ -9,14 +9,14 @@ module.exports = (params, useAxios) => {
     rank_cid: params.rank_cid || 0,
     type: 1,
     page: params.page || 1,
-    rank_id: params.rankid,
-  };
+    rank_id: params.rankid
+  }
   return useAxios({
     url: '/openapi/kmr/v2/rank/audio',
     method: 'post',
     data: dataMap,
     encryptType: 'android',
     cookie: params?.cookie || {},
-    headers: { 'kg-tid': '369' },
-  });
-};
+    headers: { 'kg-tid': '369' }
+  })
+}

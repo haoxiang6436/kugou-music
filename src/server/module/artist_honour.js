@@ -6,6 +6,6 @@ module.exports = (params, useAxios) => {
     method: 'POST',
     params: { singer_id: params.id, pagesize: params?.pagesize || 30, page: params?.page || 1 },
     encryptType: 'android',
-    cookie: params?.cookie || {},
-  });
-};
+    cookie: params?.cookie || {}
+  })
+}

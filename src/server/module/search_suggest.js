@@ -12,6 +12,6 @@ module.exports = (params, useAxios) => {
     },
     encryptType: 'android',
     cookie: params?.cookie || {},
-    headers: { 'x-router': 'searchtip.kugou.com' },
-  });
-};
+    headers: { 'x-router': 'searchtip.kugou.com' }
+  })
+}

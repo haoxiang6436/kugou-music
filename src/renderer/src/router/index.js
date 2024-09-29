@@ -6,27 +6,22 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: 'Home',
       component: Layout,
       children: [
         {
-          path: '/',
+          path: '/layout',
           name: 'HomeView',
           component: () => import('@/views/HomeView/index.vue')
         },
         {
-          path: '/search',
+          path: '/layout/search',
           name: 'SearchView',
           component: () => import('@/views/SearchView/index.vue')
         }
       ]
-    }
-    // {
-    //   path: '/user',
-    //   name: 'user',
-    //   component: () => import('@/views/UserInfoView.vue'),
-    //   meta: { keepAlive: true }
-    // }
+    },
+    { path: '/:catchAll(.*)', redirect: '/layout' }
   ]
 })
 

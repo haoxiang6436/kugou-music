@@ -2,8 +2,8 @@
 module.exports = (params, useAxios) => {
   const dataMap = {
     id: params?.id,
-    share: 0,
-  };
+    share: 0
+  }
 
   return useAxios({
     url: '/v1/zone/home',
@@ -11,6 +11,6 @@ module.exports = (params, useAxios) => {
     method: 'GET',
     params: dataMap,
     cookie: params?.cookie || {},
-    headers: { 'x-router': 'yuekucategory.kugou.com' },
-  });
-};
+    headers: { 'x-router': 'yuekucategory.kugou.com' }
+  })
+}

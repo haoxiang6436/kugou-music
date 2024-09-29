@@ -8,9 +8,9 @@ import components from './components'
 import { autoAnimatePlugin } from '@formkit/auto-animate/vue'
 const app = createApp(App)
 
+app.use(autoAnimatePlugin)
 app.use(pinia)
 app.use(router)
 app.use(components)
-app.use(autoAnimatePlugin)
 
 app.mount('#app')

@@ -3,8 +3,8 @@ module.exports = (params, useAxios) => {
   const dataMap = {
     businessid: 5,
     mobile: `${params?.mobile}`,
-    plat: 3,
-  };
+    plat: 3
+  }
 
   return useAxios({
     baseURL: 'http://login.user.kugou.com',
@@ -12,7 +12,7 @@ module.exports = (params, useAxios) => {
     method: 'POST',
     data: dataMap,
     encryptType: 'android',
-    cookie: {},
+    cookie: {}
     // headers: { 'x-router': 'loginservice.kugou.com' },
-  });
-};
+  })
+}

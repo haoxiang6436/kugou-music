@@ -1,8 +1,8 @@
-const { appid, clientver, cryptoMd5, signParamsKey } = require('../util');
+const { appid, clientver, cryptoMd5, signParamsKey } = require('../util')
 module.exports = (params, useAxios) => {
-  const dateTime = Date.now();
-  const dfid = params?.cookie?.dfid || params?.dfid || '-';
-  const userid = params?.cookie?.userid || params?.userid || 0;
+  const dateTime = Date.now()
+  const dfid = params?.cookie?.dfid || params?.dfid || '-'
+  const userid = params?.cookie?.userid || params?.userid || 0
   const dataMap = {
     kguid: userid,
     clienttime: dateTime,
@@ -12,8 +12,8 @@ module.exports = (params, useAxios) => {
     uid: userid,
     get_tracker: 1,
     key: signParamsKey(dateTime),
-    appid,
-  };
+    appid
+  }
 
   return useAxios({
     url: '/v1/class_fm_song',
@@ -21,6 +21,6 @@ module.exports = (params, useAxios) => {
     method: 'POST',
     data: dataMap,
     cookie: params?.cookie || {},
-    headers: { 'x-router': 'fm.service.kugou.com' },
-  });
-};
+    headers: { 'x-router': 'fm.service.kugou.com' }
+  })
+}

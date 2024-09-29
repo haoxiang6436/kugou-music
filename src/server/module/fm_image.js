@@ -1,11 +1,13 @@
-const { appid, clientver, cryptoMd5, signParamsKey } = require('../util');
+const { appid, clientver, cryptoMd5, signParamsKey } = require('../util')
 module.exports = (params, useAxios) => {
-  const dateTime = Date.now();
-  const dfid = params?.cookie?.dfid || params?.dfid || '-';
-  const userid = params?.cookie?.userid || params?.userid;
-  const token = params?.cookie?.token || params?.token;
+  const dateTime = Date.now()
+  const dfid = params?.cookie?.dfid || params?.dfid || '-'
+  const userid = params?.cookie?.userid || params?.userid
+  const token = params?.cookie?.token || params?.token
 
-  const fmData = (params?.fmid || '').split(',').map((s) => ({ fields: 'imgUrl100,imgUrl50', fmid: s, fmtype: 2 }));
+  const fmData = (params?.fmid || '')
+    .split(',')
+    .map((s) => ({ fields: 'imgUrl100,imgUrl50', fmid: s, fmtype: 2 }))
 
   const dataMap = {
     appid,
@@ -14,10 +16,10 @@ module.exports = (params, useAxios) => {
     data: fmData,
     dfid,
     key: signParamsKey(dateTime),
-    mid: cryptoMd5(dfid),
-  };
-  if (userid) dataMap['userid'] = userid;
-  if (token) dataMap['token'] = token;
+    mid: cryptoMd5(dfid)
+  }
+  if (userid) dataMap['userid'] = userid
+  if (token) dataMap['token'] = token
 
   return useAxios({
     url: '/v1/fm_info',
@@ -25,6 +27,6 @@ module.exports = (params, useAxios) => {
     method: 'POST',
     data: dataMap,
     cookie: params?.cookie || {},
-    headers: { 'x-router': 'fm.service.kugou.com', 'Content-Type': 'application/json' },
-  });
-};
+    headers: { 'x-router': 'fm.service.kugou.com', 'Content-Type': 'application/json' }
+  })
+}

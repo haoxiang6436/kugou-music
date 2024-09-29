@@ -7,8 +7,8 @@ module.exports = (params, useAxios) => {
     ismp3: 0,
     hash: params.hash,
     pid: 1,
-    type: 1,
-  };
+    type: 1
+  }
 
   return useAxios({
     url: '/v2/interface/index',
@@ -16,6 +16,6 @@ module.exports = (params, useAxios) => {
     params: paramsMap,
     encryptType: 'android',
     encryptKey: true,
-    headers: { 'x-router': 'trackermv.kugou.com' },
-  });
-};
+    headers: { 'x-router': 'trackermv.kugou.com' }
+  })
+}

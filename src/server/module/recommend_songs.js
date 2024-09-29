@@ -3,8 +3,8 @@
 module.exports = (params, useAxios) => {
   const dataMap = {
     platform: params?.platform || 'android',
-    userid: params?.userid || params?.cookie?.userid || '0',
-  };
+    userid: params?.userid || params?.cookie?.userid || '0'
+  }
 
   return useAxios({
     url: '/everyday_song_recommend',
@@ -12,6 +12,6 @@ module.exports = (params, useAxios) => {
     data: dataMap,
     encryptType: 'android',
     cookie: params?.cookie || {},
-    headers: { 'x-router': 'everydayrec.service.kugou.com' },
-  });
-};
+    headers: { 'x-router': 'everydayrec.service.kugou.com' }
+  })
+}

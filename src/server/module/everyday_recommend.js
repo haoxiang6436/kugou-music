@@ -5,6 +5,6 @@ module.exports = (params, useAxios) => {
     method: 'POST',
     params: { platform: params.platform || 'ios' },
     cookie: params?.cookie || {},
-    headers: { 'x-router': 'everydayrec.service.kugou.com' },
-  });
-};
+    headers: { 'x-router': 'everydayrec.service.kugou.com' }
+  })
+}

@@ -1,11 +1,11 @@
-const { cryptoMd5, signParamsKey, clientver, appid } = require('../util');
+const { cryptoMd5, signParamsKey, clientver, appid } = require('../util')
 // 获取视频特权
 
 module.exports = (params, useAxios) => {
-  const dfid = params?.cookie?.dfid || '-';
-  const mid = cryptoMd5(dfid);
+  const dfid = params?.cookie?.dfid || '-'
+  const mid = cryptoMd5(dfid)
 
-  const resource = (params?.hash || '').split(',').map((s) => ({ hash: s, id: 0, name: '' }));
+  const resource = (params?.hash || '').split(',').map((s) => ({ hash: s, id: 0, name: '' }))
 
   const dataMap = {
     appid,
@@ -17,8 +17,8 @@ module.exports = (params, useAxios) => {
     resource,
     token: params?.cookie?.token || '',
     userid: params?.cookie?.userid || 0,
-    vip: params?.cookie?.vip_type || 0,
-  };
+    vip: params?.cookie?.vip_type || 0
+  }
 
   return useAxios({
     url: '/v1/get_video_privilege',
@@ -26,6 +26,6 @@ module.exports = (params, useAxios) => {
     data: dataMap,
     encryptType: 'android',
     cookie: params?.cookie || {},
-    headers: { 'x-router': 'media.store.kugou.com' },
-  });
-};
+    headers: { 'x-router': 'media.store.kugou.com' }
+  })
+}

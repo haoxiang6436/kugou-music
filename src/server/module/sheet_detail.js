@@ -2,7 +2,7 @@
 module.exports = (params, useAxios) => {
   const paramsMap = {
     id: params.id,
-    source: params.source,
+    source: params.source
   }
   return useAxios({
     baseURL: 'https://miniyueku.kugou.com',
@@ -10,6 +10,6 @@ module.exports = (params, useAxios) => {
     encryptType: 'android',
     method: 'GET',
     params: paramsMap,
-    cookie: params?.cookie || {},
-  });
-};
+    cookie: params?.cookie || {}
+  })
+}

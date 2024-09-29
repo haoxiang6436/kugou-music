@@ -6,8 +6,8 @@ module.exports = (params, useAxios) => {
     module: 'NONE',
     page: params?.page || 1,
     pagesize: params?.pagesize || 30,
-    global_collection_id: params?.id,
-  };
+    global_collection_id: params?.id
+  }
 
   return useAxios({
     url: '/v4/get_other_list_file',
@@ -15,6 +15,6 @@ module.exports = (params, useAxios) => {
     encryptType: 'android',
     params: paramsMap,
     cookie: params?.cookie || {},
-    headers: { 'x-router': 'pubsongscdn.kugou.com' },
-  });
-};
+    headers: { 'x-router': 'pubsongscdn.kugou.com' }
+  })
+}

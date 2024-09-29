@@ -2,10 +2,10 @@
 module.exports = (params, useAxios) => {
   const dataMap = {
     album_id: params.id,
-    is_buy:  params?.is_buy || '',
+    is_buy: params?.is_buy || '',
     page: params?.page || 1,
-    pagesize: params?.pagesize || 30,
-  };
+    pagesize: params?.pagesize || 30
+  }
 
   return useAxios({
     url: '/v1/album_audio/lite',
@@ -13,6 +13,6 @@ module.exports = (params, useAxios) => {
     data: dataMap,
     encryptType: 'android',
     cookie: params?.cookie || {},
-    headers: { 'x-router': 'openapi.kugou.com', 'kg-tid': '255' },
-  });
+    headers: { 'x-router': 'openapi.kugou.com', 'kg-tid': '255' }
+  })
 }

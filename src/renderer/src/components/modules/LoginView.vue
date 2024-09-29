@@ -5,6 +5,7 @@
         <h1>扫码登录</h1>
         <div class="QRCode"><img :src="QRcode.URL" width="100%" height="100%" alt="" /></div>
         <h2>{{ StatusList[QRcode.Status] }}</h2>
+        <a-button v-if="UserInfoStore.isLogin" @click="ExitLogin">退出登录</a-button>
       </div>
     </div>
   </Transition>
@@ -16,7 +17,9 @@ import { eventBus } from '@/utils/eventBus'
 import { getLoginQRCode, getLoginQRCodeStatus } from '@/api/UserInfo'
 import { useUserInfoStore } from '@/stores'
 const UserInfoStore = useUserInfoStore()
+const { setLogin, removeLogin } = UserInfoStore
 const StatusList = ['过期', '等待扫码', '等待确认', '', '授权成功']
+
 let timer = null
 const QRcode = ref({
   URL: '',
@@ -25,10 +28,25 @@ const QRcode = ref({
 })
 const LoginViewShow = ref(false)
 eventBus.on('login', async () => {
-  console.log('showLogin')
   LoginViewShow.value = true
 })
+const ExitLogin = () => {
+  removeLogin()
+  QRcode.value = {
+    URL: '',
+    Status: 3,
+    ID: ''
+  }
+  getQRCode()
+}
 const getQRCode = async () => {
+  if (UserInfoStore.isLogin) {
+    console.log('已登录')
+    QRcode.value.Status = 4
+    QRcode.value.URL = UserInfoStore.UserInfo?.pic
+    return
+  }
+  console.log('登录')
   const { data } = await getLoginQRCode()
   QRcode.value.ID = data.qrcode
   QRcode.value.URL = data.qrcode_img
@@ -38,18 +56,32 @@ const checkQRCodeStatus = async () => {
   clearTimeout(timer)
   const { data } = await getLoginQRCodeStatus(QRcode.value.ID)
   QRcode.value.Status = data.status
-  if (data.status === 4) {
-    // 授权成功
-    UserInfoStore.UserInfo = data
-    console.log(UserInfoStore.UserInfo)
-    QRcode.value.URL = data.pic
-    clearTimeout(timer)
-  } else if (data.status === 1 || data.status === 2) {
-    timer = setTimeout(() => {
-      checkQRCodeStatus()
-    }, 2000)
-  } else {
-    clearTimeout(timer)
+  switch (data.status) {
+    case 0:
+      getQRCode()
+      break
+    case 1:
+      timer = setTimeout(() => {
+        checkQRCodeStatus()
+      }, 2000)
+      break
+    case 2: // 等待确认登录
+      QRcode.value.URL = data.pic
+      timer = setTimeout(() => {
+        checkQRCodeStatus()
+      }, 2000)
+      break
+    case 3:
+      break
+    case 4:
+      setLogin(data)
+      QRcode.value.URL = data.pic
+      clearTimeout(timer)
+      setTimeout(() => (LoginViewShow.value = false), 1500)
+      break
+    default:
+      clearTimeout(timer)
+      break
   }
 }
 watch(
@@ -59,85 +91,12 @@ watch(
       clearTimeout(timer)
       timer = null
     } else {
+      // eventBus.off('login')
       getQRCode()
     }
   }
 )
 </script>
-
-<!-- <script setup>
-import { useUserInfoStore } from '@/stores'
-import { getLoginQRCode, getLoginQRCodeStatus, getUserVipInfo } from '@/api/UserInfo'
-import { onMounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
-const router = useRouter()
-const StatusList = ['过期', '等待扫码', '等待确认', '', '授权成功']
-const Status = ref()
-const QRcodeID = ref('')
-const QRcodeURL = ref('')
-let timer = null
-const UserInfoStore = useUserInfoStore()
-const getQRCode = async () => {
-  const { data } = await getLoginQRCode()
-  QRcodeID.value = data.qrcode
-  QRcodeURL.value = data.qrcode_img
-  checkQRCodeStatus()
-}
-const checkQRCodeStatus = async () => {
-  clearTimeout(timer)
-  const { data } = await getLoginQRCodeStatus(QRcodeID.value)
-  Status.value = data.status
-  if (data.status === 4) {
-    const UserInfoStore = useUserInfoStore()
-    // 授权成功
-    UserInfoStore.UserInfo = data
-    console.log(UserInfoStore.UserInfo)
-    QRcodeURL.value = data.pic
-    clearTimeout(timer)
-    router.push('/')
-    timer = null
-  } else if (data.status === 1 || data.status === 2) {
-    timer = setTimeout(() => {
-      checkQRCodeStatus()
-    }, 2000)
-  } else {
-    clearTimeout(timer)
-  }
-}
-const Login = async () => {
-  if (!UserInfoStore.UserInfo?.token) {
-    console.log(UserInfoStore.UserInfo.token)
-    console.log('未登录')
-    getQRCode()
-  } else {
-    console.log('已登录')
-    Status.value = 4
-    QRcodeURL.value = UserInfoStore.UserInfo.pic
-    console.log(UserInfoStore.UserInfo.token)
-    console.log(UserInfoStore.UserInfo.userid)
-  }
-}
-const ExitLogin = () => {
-  console.log('退出登录')
-  UserInfoStore.UserInfo = {}
-  Login()
-}
-const GetVip = async () => {
-  // const {
-  //   data: { dfid }
-  // } = await getDfid()
-  const data = await getUserVipInfo()
-  console.log('获取vip', data)
-}
-onMounted(() => {
-  if (UserInfoStore.UserInfo.token && UserInfoStore.UserInfo.userid) {
-    Status.value = 4
-    QRcodeURL.value = UserInfoStore.UserInfo.pic
-  } else {
-    Login()
-  }
-})
-</script> -->
 
 <style lang="scss" scoped>
 .LoginView {
@@ -164,8 +123,8 @@ onMounted(() => {
       margin-bottom: 20px;
     }
     .QRCode {
-      width: 300px;
-      height: 300px;
+      width: 260px;
+      height: 260px;
       border-radius: 10px;
       overflow: hidden;
     }
@@ -174,11 +133,12 @@ onMounted(() => {
 /* 下面我们会解释这些 class 是做什么的 */
 .v-enter-active,
 .v-leave-active {
-  transition: opacity 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .v-enter-from,
 .v-leave-to {
   opacity: 0;
+  transform: scale(1.05);
 }
 </style>

@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function getLoginQRCode() {
   return request({
-    url: '/login/qr/key',
+    url: '/login/qr/key?timer=' + new Date().getTime(),
     method: 'get'
   })
 }

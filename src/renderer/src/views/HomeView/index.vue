@@ -1,7 +1,7 @@
 <template>
-  <ViewContainer class="HomeView">
+  <div class="HomeView">
     <ForYouModules />
-  </ViewContainer>
+  </div>
 </template>
 
 <script setup>

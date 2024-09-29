@@ -4,6 +4,6 @@ module.exports = (params, useAxios) => {
     url: '/zhuanjidata/v3/album_shop_v2/get_classify_data',
     method: 'GET',
     encryptType: 'android',
-    cookie: params?.cookie || {},
-  });
-};
+    cookie: params?.cookie || {}
+  })
+}

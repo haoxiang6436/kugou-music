@@ -1,5 +1,5 @@
 // 歌词搜索
-const { appid, clientver } = require('../util');
+const { appid, clientver } = require('../util')
 
 module.exports = (params, useAxios) => {
   const dataMap = {
@@ -10,8 +10,8 @@ module.exports = (params, useAxios) => {
     hash: params?.hash || '',
     keyword: params?.keywords || '',
     lrctxt: 1,
-    man: 'no',
-  };
+    man: 'no'
+  }
 
   return useAxios({
     baseURL: 'https://lyrics.kugou.com',
@@ -21,6 +21,6 @@ module.exports = (params, useAxios) => {
     cookie: params?.cookie || {},
     encryptType: 'android',
     clearDefaultParams: true,
-    notSign: true,
-  });
-};
+    notSign: true
+  })
+}

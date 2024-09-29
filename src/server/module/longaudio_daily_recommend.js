@@ -4,6 +4,6 @@ module.exports = (params, useAxios) => {
     method: 'post',
     encryptType: 'android',
     params: { module_id: 1, size: params.pagesize || 30, page: params.page || 1 },
-    cookie: params?.cookie || {},
-  });
-};
+    cookie: params?.cookie || {}
+  })
+}

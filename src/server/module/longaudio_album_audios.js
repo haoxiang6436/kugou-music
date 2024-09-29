@@ -8,9 +8,9 @@ module.exports = (params, useAxios) => {
       area_code: 1,
       tagid: 0,
       page: params.page || 1,
-      pagesize: params.pagesize || 30,
+      pagesize: params.pagesize || 30
     },
     cookie: params?.cookie || {},
-    headers: { 'x-router': 'openapi.kugou.com', 'KG-TID': '78' },
-  });
-};
+    headers: { 'x-router': 'openapi.kugou.com', 'KG-TID': '78' }
+  })
+}

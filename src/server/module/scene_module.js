@@ -4,6 +4,6 @@ module.exports = (params, useAxios) => {
     params: { scene_id: params.id },
     method: 'POST',
     encryptType: 'android',
-    cookie: params?.cookie || {},
-  });
-};
+    cookie: params?.cookie || {}
+  })
+}

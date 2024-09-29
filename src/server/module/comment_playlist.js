@@ -1,6 +1,5 @@
 // 歌曲评论
 module.exports = (params, useAxios) => {
-
   const paramsMap = {
     childrenid: params.id,
     need_show_image: 1,
@@ -18,6 +17,6 @@ module.exports = (params, useAxios) => {
     encryptType: 'android',
     method: 'POST',
     params: paramsMap,
-    cookie: params?.cookie || {},
-  });
-};
+    cookie: params?.cookie || {}
+  })
+}

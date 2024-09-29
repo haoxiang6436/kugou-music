@@ -9,8 +9,8 @@ module.exports = (params, useAxios) => {
       musician: 0,
       sextype: params?.sextype ?? 0,
       showtype: 2,
-      type: params?.type ?? 0,
+      type: params?.type ?? 0
     },
-    cookie: params?.cookie || {},
-  });
-};
+    cookie: params?.cookie || {}
+  })
+}

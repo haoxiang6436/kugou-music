@@ -1,10 +1,10 @@
 // 歌单
 // categoryid 0：推荐，11292：HI-RES
 
-const { appid, clientver, signParamsKey, cryptoMd5 } = require('../util');
+const { appid, clientver, signParamsKey, cryptoMd5 } = require('../util')
 
 module.exports = (params, useAxios) => {
-  const dateTime = (Date.now() / 1000).toFixed(0);
+  const dateTime = (Date.now() / 1000).toFixed(0)
   const specialRecommend = {
     withtag: params?.withtag || 1,
     withsong: params?.withsong || 1,
@@ -13,8 +13,8 @@ module.exports = (params, useAxios) => {
     is_selected: 0,
     withrecommend: 1,
     area_code: 1,
-    categoryid: params?.category_id || 0,
-  };
+    categoryid: params?.category_id || 0
+  }
 
   const dataMap = {
     appid,
@@ -30,8 +30,8 @@ module.exports = (params, useAxios) => {
     special_recommend: specialRecommend,
     req_multi: 1,
     retrun_min: 5,
-    return_special_falg: 1,
-  };
+    return_special_falg: 1
+  }
 
   return useAxios({
     url: '/v2/special_recommend',
@@ -39,6 +39,6 @@ module.exports = (params, useAxios) => {
     method: 'POST',
     data: dataMap,
     cookie: params?.cookie || {},
-    headers: { 'x-router': 'specialrec.service.kugou.com' },
-  });
-};
+    headers: { 'x-router': 'specialrec.service.kugou.com' }
+  })
+}

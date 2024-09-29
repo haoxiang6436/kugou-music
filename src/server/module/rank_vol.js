@@ -5,14 +5,14 @@ module.exports = (params, useAxios) => {
     rankid: params.rankid,
     ranktype: 1,
     type: 0,
-    plat: 2,
-  };
+    plat: 2
+  }
 
   return useAxios({
     url: '/ocean/v6/rank/vol',
     method: 'get',
     encryptType: 'android',
     params: parmasMap,
-    cookie: params?.cookie || {},
-  });
-};
+    cookie: params?.cookie || {}
+  })
+}

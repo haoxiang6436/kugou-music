@@ -5,13 +5,13 @@
 // song_module_4 card_id_4: 小众宝藏佳作
 // song_module_6 card_id_6: vip专属推荐
 
-const { appid, clientver, cryptoMd5, signParamsKey } = require('../util');
+const { appid, clientver, cryptoMd5, signParamsKey } = require('../util')
 
 module.exports = (params, useAxios) => {
-  const dfid = params?.dfid || params?.cookie?.dfid || '-';
-  const fakem = '60f7ebf1f812edbac3c63a7310001701760f';
-  const mid = cryptoMd5(dfid);
-  const dateTime = Date.now();
+  const dfid = params?.dfid || params?.cookie?.dfid || '-'
+  const fakem = '60f7ebf1f812edbac3c63a7310001701760f'
+  const mid = cryptoMd5(dfid)
+  const dateTime = Date.now()
 
   const dataMap = {
     appid,
@@ -25,15 +25,15 @@ module.exports = (params, useAxios) => {
     mid,
     uuid: cryptoMd5(`${dfid}${mid}`),
     client_playlist: [],
-    u_info: 'a0c35cd40af564444b5584c2754dedec',
-  };
+    u_info: 'a0c35cd40af564444b5584c2754dedec'
+  }
 
   return useAxios({
     url: '/singlecardrec.service/v1/single_card_recommend',
     encryptType: 'android',
     method: 'POST',
     data: dataMap,
-    params: { 'card_id': params?.card_id || 1, fakem, area_code: 1, platform: 'android' },
-    cookie: params?.cookie || {},
-  });
-};
+    params: { card_id: params?.card_id || 1, fakem, area_code: 1, platform: 'android' },
+    cookie: params?.cookie || {}
+  })
+}

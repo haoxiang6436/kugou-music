@@ -1,4 +1,4 @@
-const { srcappid} = require('../util');
+const { srcappid } = require('../util')
 // 乐谱详情
 module.exports = (params, useAxios) => {
   const paramsMap = {
@@ -10,6 +10,6 @@ module.exports = (params, useAxios) => {
     encryptType: 'web',
     method: 'GET',
     params: paramsMap,
-    cookie: params?.cookie || {},
-  });
-};
+    cookie: params?.cookie || {}
+  })
+}

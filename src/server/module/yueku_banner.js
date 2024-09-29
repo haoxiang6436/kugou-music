@@ -12,14 +12,14 @@ module.exports = (params, useAxios) => {
     tags: [],
     apiver: 5,
     ability: 2,
-    mode: 'normal',
-  };
+    mode: 'normal'
+  }
 
   return useAxios({
     url: '/ads.gateway/v3/listen_banner',
     encryptType: 'android',
     method: 'POST',
     data: dataMap,
-    cookie: params?.cookie || {},
-  });
-};
+    cookie: params?.cookie || {}
+  })
+}

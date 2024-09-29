@@ -6,6 +6,6 @@ module.exports = (params, useAxios) => {
     data: { author_id: params.id },
     encryptType: 'android',
     cookie: params?.cookie || {},
-    headers: { 'x-router': 'openapi.kugou.com', 'kg-tid': 36 },
-  });
-};
+    headers: { 'x-router': 'openapi.kugou.com', 'kg-tid': 36 }
+  })
+}

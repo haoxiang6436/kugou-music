@@ -5,6 +5,6 @@ module.exports = (params, useAxios) => {
     data: { exposure: [] },
     method: 'POST',
     encryptType: 'android',
-    cookie: params?.cookie || {},
-  });
-};
+    cookie: params?.cookie || {}
+  })
+}

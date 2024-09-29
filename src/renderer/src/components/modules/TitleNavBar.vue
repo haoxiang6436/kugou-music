@@ -8,7 +8,7 @@
           :size="btnSize"
           style="position: absolute; left: 8px; top: 50%; transform: translateY(-50%)"
         />
-        <input v-model="SearchWord" @keyup.enter="JumpSearchView" />
+        <input v-model="SearchWord" @input="updateUrl" @keyup.enter="JumpSearchView" />
       </div>
     </div>
     <div class="WindowAction">
@@ -34,7 +34,7 @@ import { eventBus } from '@/utils/eventBus'
 const btnSize = 18
 const router = useRouter()
 const route = useRoute()
-const SearchWord = ref('风居住的街道')
+const SearchWord = ref('广西大师')
 const JumpSearchView = () => {
   if (!SearchWord.value) return
   if (route.name === 'SearchView') {
@@ -42,6 +42,15 @@ const JumpSearchView = () => {
     return
   }
   router.push({ name: 'SearchView', query: { keyword: SearchWord.value } })
+}
+const updateUrl = () => {
+  const newQuery = { ...route.query }
+  if (SearchWord.value) {
+    newQuery.keyword = encodeURIComponent(SearchWord.value)
+  } else {
+    delete newQuery.keyword
+  }
+  router.push({ query: newQuery })
 }
 const WindowHandler = (e) => window.api.WindowHandler(e)
 </script>

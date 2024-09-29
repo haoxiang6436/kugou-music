@@ -4,13 +4,13 @@ module.exports = (params, useAxios) => {
     album_audio_id: params.album_audio_id,
     opern_type: params.opern_type ?? 0,
     page: params.page ?? 1,
-    pagesize: params.pagesize ?? 30,
+    pagesize: params.pagesize ?? 30
   }
   return useAxios({
     url: '/miniyueku/v1/opern/list',
     encryptType: 'android',
     method: 'GET',
     params: paramsMap,
-    cookie: params?.cookie || {},
-  });
-};
+    cookie: params?.cookie || {}
+  })
+}

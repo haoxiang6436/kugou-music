@@ -1,24 +1,18 @@
 import { app, shell, BrowserWindow, ipcMain } from 'electron'
-import { join } from 'path'
+import { resolve } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-const { spawn } = require('child_process')
-
+// require('dotenv').config()
+process.env.platform = process.env.platform || 'lite'
+console.log('lite', process.env.platform)
 function createServer() {
-  const expressServer = spawn('node', [join(__dirname, '../../src/server/app.js')], {
-    stdio: 'inherit'
-  })
-  // expressServer.stdout.on('data', (data) => {
-  //   console.log(`Node server output: ${data}`)
-  // })
-
-  // expressServer.stderr.on('data', (data) => {
-  //   console.error(`Node server error: ${data}`)
-  // })
-  return expressServer
+  require(resolve(__dirname, '../../src/server/app'))
 }
+createServer()
+
 function createWindow() {
   // Create the browser window.
+  console.log('port', process.env.PORT)
   const mainWindow = new BrowserWindow({
     x: 50,
     y: 50,
@@ -31,7 +25,7 @@ function createWindow() {
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
-      preload: join(__dirname, '../preload/index.js'),
+      preload: resolve(__dirname, '../preload/index.js'),
       sandbox: false
     }
   })
@@ -53,7 +47,7 @@ function createWindow() {
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
     mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
   } else {
-    mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
+    mainWindow.loadFile(resolve(__dirname, '../renderer/index.html'))
   }
 }
 
@@ -67,10 +61,8 @@ app.whenReady().then(() => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
   createWindow()
-  const server = createServer()
   app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
-      server.kill()
       app.quit()
     }
   })

@@ -1,7 +1,7 @@
-const { appid, clientver, cryptoMd5, signParamsKey } = require('../util');
+const { appid, clientver, cryptoMd5, signParamsKey } = require('../util')
 module.exports = (params, useAxios) => {
-  const dateTime = Date.now();
-  const dfid = params?.cookie?.dfid || params?.dfid || '-';
+  const dateTime = Date.now()
+  const dfid = params?.cookie?.dfid || params?.dfid || '-'
   const dataMap = {
     appid,
     clientver,
@@ -12,8 +12,8 @@ module.exports = (params, useAxios) => {
     level: 0,
     area_code: 1,
     get_tracker: 1,
-    uid: 0,
-  };
+    uid: 0
+  }
 
   return useAxios({
     url: '/v1/rcmd_list',
@@ -21,6 +21,6 @@ module.exports = (params, useAxios) => {
     method: 'POST',
     data: dataMap,
     cookie: params?.cookie || {},
-    headers: { 'x-router': 'fm.service.kugou.com' },
-  });
-};
+    headers: { 'x-router': 'fm.service.kugou.com' }
+  })
+}

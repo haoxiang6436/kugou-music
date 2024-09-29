@@ -1,14 +1,15 @@
 <template>
-  <ViewContainer class="SearchView">
-    <div class="MusicList">
-      <div v-if="loading" class="loading">loading</div>
+  <div class="SearchView">
+    <Loading v-if="loading" />
+    <div v-else v-auto-animate class="MusicList">
       <SearchResultItem
         v-for="item in AListOfSearchResults"
         :key="item.FileHash"
         :SearchResultsItem="item"
+        :PlayerMusic
       ></SearchResultItem>
     </div>
-  </ViewContainer>
+  </div>
 </template>
 
 <script setup>
@@ -29,13 +30,16 @@ onMounted(() => {
 })
 
 async function performSearch(keyword) {
+  if (loading.value) return
   loading.value = true
-  console.log(keyword)
   const { data } = await getSearchMusicList(keyword)
   AListOfSearchResults.value = data.lists
   console.log(AListOfSearchResults.value)
-  loading.value = false
+  setTimeout(() => {
+    loading.value = false
+  }, 1500)
 }
+const PlayerMusic = () => {}
 </script>
 
 <style lang="scss" scoped>
@@ -86,10 +90,5 @@ async function performSearch(keyword) {
       }
     }
   }
-}
-/* 当鼠标悬停在滚动条上时改变滚动条的颜色 */
-.simplebar-scrollbar:before {
-  background-color: #ececec; /* 鼠标悬停时滚动条颜色 */
-  // background-color: #8d8d8d; /* 鼠标悬停时滚动条颜色 */
 }
 </style>

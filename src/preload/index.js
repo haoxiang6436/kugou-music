@@ -2,7 +2,8 @@ import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 // Custom APIs for renderer
 const api = {
-  WindowHandler: (data) => ipcRenderer.send('window-handler', data)
+  WindowHandler: (data) => ipcRenderer.send('window-handler', data),
+  ServerPORT: process.env.PORT || '3000'
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

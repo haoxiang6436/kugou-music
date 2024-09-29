@@ -4,19 +4,20 @@
     :class="{
       MusicItem: true,
       nowSing:
-        props.SearchResultsItem.FileHash ===
-          MusicPlayerListStore.CurrentPlayerMusicInfo?.FileHash &&
-        props.SearchResultsItem.SongName === MusicPlayerListStore.CurrentPlayerMusicInfo?.SongName
+        props.SearchResultsItem.FileHash === MusicPlayerListStore.ActivePlayerMusicInfo?.FileHash &&
+        props.SearchResultsItem.SongName === MusicPlayerListStore.ActivePlayerMusicInfo?.SongName &&
+        props.SearchResultsItem.SingerName ===
+          MusicPlayerListStore.ActivePlayerMusicInfo?.SingerName
     }"
     @dblclick="
       () =>
-        PlayerMusic(
-          props.SearchResultsItem.ResFileHash ||
-            props.SearchResultsItem.SuperFileHash ||
-            props.SearchResultsItem.SQFileHash ||
-            props.SearchResultsItem.HQFileHash ||
-            props.SearchResultsItem.FileHash
-        )
+        PlayerMusic([
+          props.SearchResultsItem.ResFileHash,
+          props.SearchResultsItem.SuperFileHash,
+          props.SearchResultsItem.SQFileHash,
+          props.SearchResultsItem.HQFileHash,
+          props.SearchResultsItem.FileHash
+        ])
     "
   >
     <img
@@ -28,7 +29,12 @@
       alt=""
     />
     <div class="info">
-      <div class="AlbumName text-overflow">{{ props.SearchResultsItem.SongName }}</div>
+      <div
+        class="AlbumName text-overflow"
+        :title="props.SearchResultsItem.SongName + props.SearchResultsItem.Suffix"
+      >
+        {{ props.SearchResultsItem.SongName + props.SearchResultsItem.Suffix }}
+      </div>
       <div class="SingerName text-overflow">{{ props.SearchResultsItem.SingerName }}</div>
     </div>
   </div>
@@ -41,23 +47,46 @@ import { Message } from '@arco-design/web-vue'
 const UserInfoStore = useUserInfoStore()
 const MusicPlayerListStore = useMusicPlayerListStore()
 const props = defineProps(['SearchResultsItem'])
-const PlayerMusic = async (hash) => {
-  console.log(props.SearchResultsItem)
-
-  const data = await getMusicConfigUrl(hash)
-  if (data.status !== 1) {
-    if (!UserInfoStore.UserInfo?.token) {
-      Message.error('请先登录')
+const SoundQualityEnumeration = ['Res', 'Super', 'SQ', 'HQ', 'Standard']
+const PlayerMusic = async (hash, index = 0) => {
+  let data
+  try {
+    // 判断音质hash空值
+    if (!hash[index] && index >= 0 && index <= 4) {
+      PlayerMusic(hash, index + 1)
       return
     }
-    Message.error('此歌曲需要vip')
-    return
+    // 发起请求获取音乐url
+    data = await getMusicConfigUrl(hash[index])
+    Message.success(
+      `正在播放:${props.SearchResultsItem.SongName}(${SoundQualityEnumeration[index]})`
+    )
+    // props.PlayerMusic(data)
+    // MusicPlayerListStore.ActivePlayerMusicInfo = index
+    MusicPlayerListStore.addPlayerMusic({
+      ...data,
+      ...props.SearchResultsItem
+    })
+    console.log(MusicPlayerListStore.ActivePlayerMusicInfo)
+  } catch (response) {
+    // 请求url失败
+    if (response.status === 502) {
+      if (response.data.status === 2) {
+        if (!UserInfoStore.UserInfo?.token) {
+          Message.error('请先登录')
+          return
+        }
+        // vip
+        if (index >= 0 && index < 4) {
+          PlayerMusic(hash, index + 1)
+        } else {
+          Message.error('你还不是VIP')
+        }
+      } else {
+        Message.error('网络错误，请检查网络')
+      }
+    }
   }
-  MusicPlayerListStore.CurrentPlayerMusicInfo = {
-    ...data,
-    ...props.SearchResultsItem
-  }
-  console.log(MusicPlayerListStore.CurrentPlayerMusicInfo)
 }
 </script>
 

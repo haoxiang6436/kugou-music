@@ -6,16 +6,18 @@ module.exports = (params, useAxios) => {
     sort: 3,
     page: params?.page || 1,
     pagesize: params?.pagesize || 30,
-    query: 1,
-  };
+    query: 1
+  }
 
-  const type = ['audios', 'albums', 'videos', 'author_list'].includes(params?.type) ? params.type : 'audios';
+  const type = ['audios', 'albums', 'videos', 'author_list'].includes(params?.type)
+    ? params.type
+    : 'audios'
 
   return useAxios({
     url: `/openapi/v1/ip/${type}`,
     encryptType: 'android',
     method: 'POST',
     data: dataMap,
-    cookie: params?.cookie || {},
-  });
-};
+    cookie: params?.cookie || {}
+  })
+}

@@ -10,6 +10,6 @@ module.exports = (params, useAxios) => {
       platform: 'ios'
     },
     params: { channel_id: params.channel_id },
-    cookie: params?.cookie,
-  });
-};
+    cookie: params?.cookie
+  })
+}

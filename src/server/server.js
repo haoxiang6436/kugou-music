@@ -204,15 +204,15 @@ async function consturctServer(moduleDefs) {
  * @returns {Promise<import('express').Express & ExpressExtension>}
  */
 async function startService() {
-  const port = Number(process.env.PORT || '3000')
+  // const port = Number(process.env.PORT || '3000')
   const host = process.env.HOST || ''
-
   const app = await consturctServer()
 
   /** @type {import('express').Express & ExpressExtension} */
   const appExt = app
-
-  appExt.service = app.listen(port, host, () => {
+  appExt.service = app.listen(0, host, () => {
+    const port = appExt.service.address().port
+    process.env.PORT = port
     console.log(`server running @ http://${host || 'localhost'}:${port}`)
   })
 

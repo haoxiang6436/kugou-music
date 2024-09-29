@@ -1,9 +1,9 @@
-const { cryptoMd5, signParamsKey, clientver, appid } = require('../util');
+const { cryptoMd5, signParamsKey, clientver, appid } = require('../util')
 // 获取歌手单曲
 
 module.exports = (params, useAxios) => {
-  const clienttime = Math.floor(new Date().getTime() / 1000);
-  const mid = cryptoMd5(params?.cookie?.dfid || '-');
+  const clienttime = Math.floor(new Date().getTime() / 1000)
+  const mid = cryptoMd5(params?.cookie?.dfid || '-')
   const dataMap = {
     appid,
     clientver,
@@ -14,8 +14,8 @@ module.exports = (params, useAxios) => {
     pagesize: params?.pagesize || 30,
     page: params?.page || 1,
     sort: params?.sort === 'hot' ? 1 : 2, // 1：最热，2：最新
-    area_code: 'all',
-  };
+    area_code: 'all'
+  }
 
   return useAxios({
     baseURL: 'https://openapi.kugou.com',
@@ -24,6 +24,6 @@ module.exports = (params, useAxios) => {
     data: dataMap,
     encryptType: 'android',
     cookie: params?.cookie || {},
-    headers: { 'x-router': 'openapi.kugou.com', 'kg-tid': 220 },
-  });
-};
+    headers: { 'x-router': 'openapi.kugou.com', 'kg-tid': 220 }
+  })
+}

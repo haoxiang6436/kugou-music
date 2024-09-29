@@ -1,9 +1,11 @@
 // 获取歌曲信息
-const { appid, clientver } = require('../util');
+const { appid, clientver } = require('../util')
 
 module.exports = (params, useAxios) => {
-  const resource = (params?.hash || '').split(',').map((s) => ({ type: 'audio', page_id: 0, hash: s, album_id: 0 }));
-  (params?.album_id || '').split(',').forEach((s, l) => (resource[l]['album_id'] = s));
+  const resource = (params?.hash || '')
+    .split(',')
+    .map((s) => ({ type: 'audio', page_id: 0, hash: s, album_id: 0 }))
+  ;(params?.album_id || '').split(',').forEach((s, l) => (resource[l]['album_id'] = s))
 
   const dataMap = {
     appid,
@@ -14,8 +16,8 @@ module.exports = (params, useAxios) => {
     relate: 1,
     support_verify: 1,
     resource,
-    qualities: ['128', '320', 'flac', 'high', 'viper_atmos', 'viper_tape'],
-  };
+    qualities: ['128', '320', 'flac', 'high', 'viper_atmos', 'viper_tape']
+  }
 
   return useAxios({
     url: '/v2/get_res_privilege/lite',
@@ -23,6 +25,6 @@ module.exports = (params, useAxios) => {
     method: 'post',
     encryptType: 'android',
     cookie: params?.cookie || {},
-    headers: { 'x-router': 'media.store.kugou.com', 'Content-Type': 'application/json' },
-  });
-};
+    headers: { 'x-router': 'media.store.kugou.com', 'Content-Type': 'application/json' }
+  })
+}

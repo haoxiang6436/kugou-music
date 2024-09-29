@@ -1,5 +1,5 @@
 // 主题歌单
-const { clientver } = require('../util');
+const { clientver } = require('../util')
 module.exports = (params, useAxios) => {
   const dataMap = {
     platform: 'android',
@@ -7,8 +7,8 @@ module.exports = (params, useAxios) => {
     clienttime: Date.now(),
     area_code: 1,
     module_id: 1,
-    userid: params?.userid || params?.cookie?.userid || 0,
-  };
+    userid: params?.userid || params?.cookie?.userid || 0
+  }
 
   return useAxios({
     url: '/v2/getthemelist',
@@ -16,6 +16,6 @@ module.exports = (params, useAxios) => {
     encryptType: 'android',
     data: dataMap,
     cookie: params?.cookie || {},
-    headers: { 'x-router': 'everydayrec.service.kugou.com' },
-  });
-};
+    headers: { 'x-router': 'everydayrec.service.kugou.com' }
+  })
+}

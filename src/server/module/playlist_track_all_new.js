@@ -1,7 +1,7 @@
 // 获取歌单所有歌曲
 module.exports = (params, useAxios) => {
-  const userid = params?.userid || params?.cookie?.userid || '0';
-  const token = params?.token || params?.cookie?.token || '0';
+  const userid = params?.userid || params?.cookie?.userid || '0'
+  const token = params?.token || params?.cookie?.token || '0'
   const dataMap = {
     listid: params.listid,
     userid,
@@ -12,8 +12,8 @@ module.exports = (params, useAxios) => {
     show_cover: 1,
     type: 0,
     token,
-    page: params.page || 1,
-  };
+    page: params.page || 1
+  }
 
   return useAxios({
     url: '/v4/get_list_all_file',
@@ -21,6 +21,6 @@ module.exports = (params, useAxios) => {
     encryptType: 'android',
     data: dataMap,
     cookie: params?.cookie || {},
-    headers: { 'x-router': 'cloudlist.service.kugou.com' },
-  });
-};
+    headers: { 'x-router': 'cloudlist.service.kugou.com' }
+  })
+}

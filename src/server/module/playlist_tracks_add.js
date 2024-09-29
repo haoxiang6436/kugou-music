@@ -1,12 +1,12 @@
 // 对歌单添加歌曲
 // listid, 歌单listid
 module.exports = (params, useAxios) => {
-  const userid = params?.userid || params?.cookie?.userid || 0;
-  const token = params?.token || params.cookie?.token || '';
-  const clienttime = Math.floor(Date.now() / 1000);
+  const userid = params?.userid || params?.cookie?.userid || 0
+  const token = params?.token || params.cookie?.token || ''
+  const clienttime = Math.floor(Date.now() / 1000)
 
   const resource = (params.data || '').split(',').map((s) => {
-    const data = s.split('|');
+    const data = s.split('|')
     return {
       number: 1,
       name: data[0] || '',
@@ -16,9 +16,9 @@ module.exports = (params, useAxios) => {
       timelen: 0,
       bitrate: 0,
       album_id: Number(data[2] || 0),
-      mixsongid: Number(data[3] || 0),
-    };
-  });
+      mixsongid: Number(data[3] || 0)
+    }
+  })
 
   const dataMap = {
     userid,
@@ -28,8 +28,8 @@ module.exports = (params, useAxios) => {
     type: 0,
     slow_upload: 1,
     scene: 'false;null',
-    data: resource,
-  };
+    data: resource
+  }
 
   return useAxios({
     url: '/cloudlist.service/v6/add_song',
@@ -37,6 +37,6 @@ module.exports = (params, useAxios) => {
     params: { last_time: clienttime, last_area: 'gztx', userid, token },
     method: 'post',
     encryptType: 'android',
-    cookie: params?.cookie || {},
-  });
-};
+    cookie: params?.cookie || {}
+  })
+}

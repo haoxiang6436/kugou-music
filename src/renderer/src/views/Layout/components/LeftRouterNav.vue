@@ -4,14 +4,8 @@
     <div class="OnlineMusicModules">
       <div class="MiniTitle">在线音乐</div>
       <div class="NavigationMenu">
-        <router-link active-class="active" to="/" class="NavigationMenuItem"
+        <router-link active-class="active" to="/layout" class="NavigationMenuItem"
           ><Compass :color="iconColor" /><span>主页</span></router-link
-        >
-        <router-link active-class="active" to="/" class="NavigationMenuItem"
-          ><Youtube :color="iconColor" /><span>视频</span></router-link
-        >
-        <router-link active-class="active" to="/" class="NavigationMenuItem"
-          ><Radar :color="iconColor" /><span>雷达</span></router-link
         >
       </div>
     </div>
@@ -19,17 +13,15 @@
       <div class="MiniTitle">我的音乐</div>
       <div class="NavigationMenu">
         <div class="NavigationMenuItem" @click="onLogin">
-          <Clock :color="iconColor" /><span>最近播放</span>
+          <Clock :color="iconColor" /><span>登录</span>
         </div>
-        <div class="NavigationMenuItem"><Download :color="iconColor" /><span>本地和下载</span></div>
-        <div class="NavigationMenuItem"><List :color="iconColor" /><span>试听列表</span></div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { Compass, Youtube, Radar, Clock, Download, List } from 'lucide-vue-next'
+import { Compass, Clock } from 'lucide-vue-next'
 import { eventBus } from '@/utils/eventBus'
 const onLogin = () => {
   eventBus.emit('login')

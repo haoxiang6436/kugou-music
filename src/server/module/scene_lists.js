@@ -3,6 +3,6 @@ module.exports = (params, useAxios) => {
     url: '/scene/v1/scene/list',
     method: 'GET',
     encryptType: 'android',
-    cookie: params?.cookie || {},
-  });
-};
+    cookie: params?.cookie || {}
+  })
+}

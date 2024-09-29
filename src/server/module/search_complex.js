@@ -5,8 +5,8 @@ module.exports = (params, useAxios) => {
     keyword: params.keywords,
     page: params?.page || 1,
     pagesize: params?.pagesize || 30,
-    cursor: 0,
-  };
+    cursor: 0
+  }
 
   return useAxios({
     baseURL: 'https://complexsearch.kugou.com',
@@ -14,6 +14,6 @@ module.exports = (params, useAxios) => {
     method: 'GET',
     params: dataMap,
     encryptType: 'android',
-    cookie: params?.cookie || {},
-  });
-};
+    cookie: params?.cookie || {}
+  })
+}

@@ -1,7 +1,10 @@
-const { cryptoMd5 } = require('./crypto');
-const { appid: useAppid, liteAppid, clientver: useClientver, liteClientver } = require('./config.json');
-
-
+const { cryptoMd5 } = require('./crypto')
+const {
+  appid: useAppid,
+  liteAppid,
+  clientver: useClientver,
+  liteClientver
+} = require('./config.json')
 
 /**
  * web版本 signature 加密
@@ -9,13 +12,13 @@ const { appid: useAppid, liteAppid, clientver: useClientver, liteClientver } = r
  * @returns {string} 加密后的signature
  */
 const signatureWebParams = (params) => {
-  const str = 'NVPh5oo715z5DIWAeQlhMDsWXXQV4hwt';
+  const str = 'NVPh5oo715z5DIWAeQlhMDsWXXQV4hwt'
   const paramsString = Object.keys(params)
     .map((key) => `${key}=${params[key]}`)
     .sort()
-    .join('');
-  return cryptoMd5(`${str}${paramsString}${str}`);
-};
+    .join('')
+  return cryptoMd5(`${str}${paramsString}${str}`)
+}
 
 /**
  * Android版本 signature 加密
@@ -24,14 +27,17 @@ const signatureWebParams = (params) => {
  * @returns {string} 加密后的signature
  */
 const signatureAndroidParams = (params, data) => {
-  const isLite = process.env.platform === 'lite';
-  const str = isLite ? 'LnT6xpN3khm36zse0QzvmgTZ3waWdRSA' : `OIlwieks28dk2k092lksi2UIkp`;
+  const isLite = process.env.platform === 'lite'
+  const str = isLite ? 'LnT6xpN3khm36zse0QzvmgTZ3waWdRSA' : `OIlwieks28dk2k092lksi2UIkp`
   const paramsString = Object.keys(params)
     .sort()
-    .map((key) => `${key}=${typeof params[key] === 'object' ? JSON.stringify(params[key]) : params[key]}`)
-    .join('');
-  return cryptoMd5(`${str}${paramsString}${data || ''}${str}`);
-};
+    .map(
+      (key) =>
+        `${key}=${typeof params[key] === 'object' ? JSON.stringify(params[key]) : params[key]}`
+    )
+    .join('')
+  return cryptoMd5(`${str}${paramsString}${data || ''}${str}`)
+}
 
 /**
  * Register版本 signature 加密
@@ -42,9 +48,9 @@ const signatureRegisterParams = (params) => {
   const paramsString = Object.keys(params)
     .map((key) => params[key])
     .sort()
-    .join('');
-  return cryptoMd5(`1014${paramsString}1014`);
-};
+    .join('')
+  return cryptoMd5(`1014${paramsString}1014`)
+}
 
 /**
  * sign 加密
@@ -53,13 +59,13 @@ const signatureRegisterParams = (params) => {
  * @returns {string} 加密后的sign
  */
 const signParams = (params, data) => {
-  const str = 'R6snCXJgbCaj9WFRJKefTMIFp0ey6Gza';
+  const str = 'R6snCXJgbCaj9WFRJKefTMIFp0ey6Gza'
   const paramsString = Object.keys(params)
     .sort()
     .map((key) => `${key}${params[key]}`)
-    .join('');
-  return cryptoMd5(`${paramsString}${data || ''}${str}`);
-};
+    .join('')
+  return cryptoMd5(`${paramsString}${data || ''}${str}`)
+}
 
 /**
  * signKey 加密
@@ -70,8 +76,10 @@ const signParams = (params, data) => {
  * @returns {string} 加密后的sign
  */
 const signKey = (hash, mid, userid, appid) => {
-  return cryptoMd5(`${hash}57ae12eb6890223e355ccfcb74edf70d${appid || useAppid}${mid}${userid || 0}`);
-};
+  return cryptoMd5(
+    `${hash}57ae12eb6890223e355ccfcb74edf70d${appid || useAppid}${mid}${userid || 0}`
+  )
+}
 
 /**
  * signParams 加密
@@ -82,15 +90,15 @@ const signKey = (hash, mid, userid, appid) => {
  */
 
 const signParamsKey = (data, appid, clientver) => {
-  const isLite = process.env.platform === 'lite';
-  const str = isLite ? 'LnT6xpN3khm36zse0QzvmgTZ3waWdRSA' : 'OIlwieks28dk2k092lksi2UIkp';
+  const isLite = process.env.platform === 'lite'
+  const str = isLite ? 'LnT6xpN3khm36zse0QzvmgTZ3waWdRSA' : 'OIlwieks28dk2k092lksi2UIkp'
 
-  appid = appid || (isLite ? liteAppid : useAppid);
+  appid = appid || (isLite ? liteAppid : useAppid)
 
-  clientver = clientver || (isLite ? liteClientver : useClientver);
+  clientver = clientver || (isLite ? liteClientver : useClientver)
 
-  return cryptoMd5(`${appid}${str}${clientver}${data}`);
-};
+  return cryptoMd5(`${appid}${str}${clientver}${data}`)
+}
 
 module.exports = {
   signKey,
@@ -98,5 +106,5 @@ module.exports = {
   signParamsKey,
   signatureAndroidParams,
   signatureRegisterParams,
-  signatureWebParams,
-};
+  signatureWebParams
+}

@@ -1,7 +1,7 @@
 module.exports = (params, useAxios) => {
-  const userid = params?.userid || params?.cookie?.userid || '0';
+  const userid = params?.userid || params?.cookie?.userid || '0'
 
-  const sortType = { rec: 1, hot: 2, new: 3 };
+  const sortType = { rec: 1, hot: 2, new: 3 }
 
   return useAxios({
     url: '/scene/v1/scene/list_v2',
@@ -10,11 +10,11 @@ module.exports = (params, useAxios) => {
       page: params.page || 1,
       pagesize: params.pagesize || 30,
       sort_type: sortType[params.sort || 'rec'] || 1,
-      kugouid: userid,
+      kugouid: userid
     },
     data: { exposure: [] },
     method: 'POST',
     encryptType: 'android',
-    cookie: params?.cookie || {},
-  });
-};
+    cookie: params?.cookie || {}
+  })
+}

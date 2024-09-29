@@ -4,8 +4,8 @@ module.exports = (params, useAxios) => {
     mid: params?.mid || '',
     uuid: params?.uuid || '',
     appid: '1014',
-    userid: params?.userid || '0',
-  };
+    userid: params?.userid || '0'
+  }
 
   return useAxios({
     baseURL: 'https://userservice.kugou.com',
@@ -14,6 +14,6 @@ module.exports = (params, useAxios) => {
     data: Buffer.from(JSON.stringify(dataMap)).toString('base64'),
     params: { ...dataMap, 'p.token': '', platid: 4 },
     encryptType: 'register',
-    cookie: params?.cookie || {},
-  });
-};
+    cookie: params?.cookie || {}
+  })
+}

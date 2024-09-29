@@ -1,5 +1,5 @@
 // 歌词获取
-const { decodeLyrics } = require('../util');
+const { decodeLyrics } = require('../util')
 
 module.exports = (params, useAxios) => {
   const dataMap = {
@@ -8,28 +8,31 @@ module.exports = (params, useAxios) => {
     id: params?.id,
     accesskey: params?.accesskey,
     fmt: params.fmt || 'krc',
-    charset: 'utf8',
-  };
+    charset: 'utf8'
+  }
 
   return new Promise((resolve, reject) => {
     useAxios({
-		  baseURL: 'https://lyrics.kugou.com',
-		  url: '/download',
+      baseURL: 'https://lyrics.kugou.com',
+      url: '/download',
       method: 'GET',
       params: dataMap,
       cookie: params?.cookie || {},
-      encryptType: 'android',
+      encryptType: 'android'
     })
       .then((res) => {
         if (params?.decode) {
           if (res.body?.content) {
-            res.body['decodeContent'] = params?.fmt == 'lrc' ? Buffer.from(res.body?.content, 'base64').toString() : decodeLyrics(res.body.content);
-            resolve(res);
-            return;
+            res.body['decodeContent'] =
+              params?.fmt == 'lrc'
+                ? Buffer.from(res.body?.content, 'base64').toString()
+                : decodeLyrics(res.body.content)
+            resolve(res)
+            return
           }
         }
-        resolve(res);
+        resolve(res)
       })
-      .catch((e) => reject(e));
-  });
-};
+      .catch((e) => reject(e))
+  })
+}

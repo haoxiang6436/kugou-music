@@ -1,9 +1,9 @@
-const { appid, clientver, signParamsKey } = require('../util');
+const { appid, clientver, signParamsKey } = require('../util')
 
 module.exports = (params, useAxios) => {
-  const userid = params?.cookie?.userid || params?.userid || 0;
-  const vip_type = params?.cookie?.vip_type || params?.vipType || 0;
-  const dateTime = Date.now();
+  const userid = params?.cookie?.userid || params?.userid || 0
+  const vip_type = params?.cookie?.vip_type || params?.vipType || 0
+  const dateTime = Date.now()
 
   const personal_recommend = {
     userid,
@@ -27,16 +27,16 @@ module.exports = (params, useAxios) => {
     clientver: 11850,
     mode: params?.mode || 'normal',
     active_swtich: 'on',
-    key: signParamsKey(dateTime),
-  };
+    key: signParamsKey(dateTime)
+  }
 
   const dataMap = {
     behaviors: [],
     abtest: {
-      abtest: { shuashua: { commentcard: 2 } },
+      abtest: { shuashua: { commentcard: 2 } }
     },
-    personal_recommend_params: personal_recommend,
-  };
+    personal_recommend_params: personal_recommend
+  }
 
   return useAxios({
     url: '/genesisapi/v1/newepoch_song_rec/feed',
@@ -44,6 +44,6 @@ module.exports = (params, useAxios) => {
     params: { sort_type: 1, platform: 'ios', page: 1, content_ver: 4, clientver: 11850 },
     method: 'post',
     encryptType: 'android',
-    cookie: params?.cookie || {},
-  });
-};
+    cookie: params?.cookie || {}
+  })
+}

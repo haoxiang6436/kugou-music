@@ -1,8 +1,8 @@
 // 收藏歌单
 module.exports = (params, useAxios) => {
-  const userid = params?.userid || params?.cookie?.userid || 0;
-  const token = params?.token || params.cookie?.token || '';
-  const clienttime = Math.floor(Date.now() / 1000);
+  const userid = params?.userid || params?.cookie?.userid || 0
+  const token = params?.token || params.cookie?.token || ''
+  const clienttime = Math.floor(Date.now() / 1000)
 
   const dataMap = {
     userid,
@@ -15,11 +15,11 @@ module.exports = (params, useAxios) => {
     list_create_userid: params.list_create_userid,
     list_create_listid: params.list_create_listid,
     list_create_gid: params.list_create_gid || '',
-    from_shupinmv: 0,
-  };
+    from_shupinmv: 0
+  }
 
   if (params.type === 0) {
-    dataMap['is_pri'] = params.is_pri || 0;
+    dataMap['is_pri'] = params.is_pri || 0
   }
 
   return useAxios({
@@ -28,6 +28,6 @@ module.exports = (params, useAxios) => {
     params: params.type === 0 ? { last_time: clienttime, last_area: 'gztx', userid, token } : {},
     method: 'post',
     encryptType: 'android',
-    cookie: params?.cookie || {},
-  });
-};
+    cookie: params?.cookie || {}
+  })
+}
