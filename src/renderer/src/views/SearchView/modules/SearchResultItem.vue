@@ -61,8 +61,6 @@ const PlayerMusic = async (hash, index = 0) => {
     Message.success(
       `正在播放:${props.SearchResultsItem.SongName}(${SoundQualityEnumeration[index]})`
     )
-    // props.PlayerMusic(data)
-    // MusicPlayerListStore.ActivePlayerMusicInfo = index
     MusicPlayerListStore.addPlayerMusic({
       ...data,
       ...props.SearchResultsItem

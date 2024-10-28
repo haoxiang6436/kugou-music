@@ -119,11 +119,26 @@ onMounted(() => {
     PlayerControlConfig.value.currentTime = audioElement.value.currentTime
     PlayerControlConfig.value.duration = audioElement.value.duration
   })
+  audioElement.value.addEventListener('error', async function (event) {
+    console.error('音频加载错误：', event.target.error)
+    // 根据具体错误进行相应的处理
+    if (event.target.error.code === event.target.error.MEDIA_ERR_ABORTED) {
+      console.error('音频加载被中止。')
+    } else if (event.target.error.code === event.target.error.MEDIA_ERR_NETWORK) {
+      console.error('网络问题导致音频加载失败。')
+    } else if (event.target.error.code === event.target.error.MEDIA_ERR_DECODE) {
+      console.error('音频解码错误。')
+    } else if (event.target.error.code === event.target.error.MEDIA_ERR_SRC_NOT_SUPPORTED) {
+      console.error('不支持的音频源。')
+    }
+    //
+    musicPlayerList.PlayerMusic()
+    await nextTick()
+    PlayOrPause(true)
+  })
   audioElement.value?.addEventListener('ended', () => {
-    console.log('ended')
     PlayerControlConfig.value.currentTime = 0
     musicPlayerList.SwitchMusic()
-    // PlayOrPause(true)
   })
 })
 watch(
@@ -137,7 +152,7 @@ watch(
 )
 function setAudioProgress(timeInSeconds) {
   if (audioElement.value) {
-    audioElement.value.currentTime = timeInSeconds
+    audioElement.value.currentTime = +timeInSeconds
   }
 }
 function formatter(value) {

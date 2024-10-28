@@ -35,9 +35,7 @@ async function performSearch(keyword) {
   const { data } = await getSearchMusicList(keyword)
   AListOfSearchResults.value = data.lists
   console.log(AListOfSearchResults.value)
-  setTimeout(() => {
-    loading.value = false
-  }, 1500)
+  loading.value = false
 }
 const PlayerMusic = () => {}
 </script>
